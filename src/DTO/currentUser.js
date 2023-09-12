@@ -7,5 +7,6 @@ export default class currentUser {
         this.age = user.age;
         this.role = user.role
         this.cart = user.cart;
+        this.last_connections = user.last_connections
     }
 }

@@ -14,14 +14,3 @@ export const changeUserRole = async (req, res) => {
     console.log(error)
   }
 }
-
-export const upLoadDocuments = async (req, res) => {
-  const { uid } = req.params
-  try {
-    res.status(200).send("hola")
-
-  } catch (error) {
-    onsole.log(error)
-  }
-}
-

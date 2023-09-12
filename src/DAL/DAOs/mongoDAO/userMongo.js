@@ -44,3 +44,16 @@ export const changeRole = async (id, obj) => {
     return error
   }
 }
+
+export const updateLastConnection = async (id) => {
+  try {
+    const updatedUser = await userModel.findByIdAndUpdate(
+      id,
+      { last_connections: Date.now() },
+      { new: true }
+    );
+    return updatedUser;
+  } catch (error) {
+    return error;
+  }
+}

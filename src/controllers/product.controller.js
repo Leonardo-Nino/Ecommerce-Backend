@@ -18,13 +18,17 @@ export const getAllProducts = async (req, res) => {
     //   age: req.user.age,
     //   email: req.user.email,
     //   role: req.user.role,
+    //   last_connection: req.user.last_connections,
     //   cart: req.user.cart,
     // }
     const product = await getProducts(req.query)
+
+
     res.render('home', {
       products: product.docs,
-      //user: currentUser
+      user: req.session.user
     })
+
     //{ docs: products } solo los productos sin meta data
   } catch (error) {
     res.status(500).send('Error getting products')

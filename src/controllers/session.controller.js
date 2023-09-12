@@ -1,5 +1,6 @@
 import 'dotenv/config'
 import { generateToken } from "../utils/JWTtoken.js"
+import { updateLastConnection } from '../DAL/DAOs/mongoDAO/userMongo.js';
 import currentUser from '../DTO/currentUser.js'
 import jwt from 'jsonwebtoken';
 
@@ -9,6 +10,7 @@ export const login = async (req, res) => {
   try {
     if (!req.user) return res.status(400).send('Error loading user' + error)
     const user = new currentUser(req.user)
+    req.session.user = user
     const token = generateToken(user)
     res.cookie('myCookie', token, { maxAge: 3600000, httpOnly: true }).redirect('/api/products')
   } catch (error) {
@@ -23,6 +25,7 @@ export const login = async (req, res) => {
 export const logout = async (req, res, next) => {
   try {
     req.session.destroy()
+    await updateLastConnection(req.user._id);
     res.redirect('login')
   } catch (error) {
     console.error(error)
