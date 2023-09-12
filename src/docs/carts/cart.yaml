@@ -1,0 +1,171 @@
+paths:
+  /api/carts/:
+    post:
+      summary: Create a new cart
+      tags:
+        - Carts 
+      responses:
+        "200":
+          description: If successful return a cart  
+        "500":
+          description: If unsuccessful to  created a cart
+  /api/carts/{cartID}:
+    get:
+      summary: Get all products from a single cart from the database
+      tags:
+        - Carts
+      parameters:
+        - name: cartID
+          in: path  
+          required: true
+          description: cartID ID to fetch
+          schemas:
+            type: string  
+      responses:
+        "200":
+          description: If successful return all products of single cart
+        "500":
+          description: If unsuccessful return error message
+    delete:
+      summary: Delete all products from a single cart
+      tags:
+        - Carts
+      parameters:
+        - name: cartID
+          in: path  
+          required: true
+          description: cartID ID to fetch
+          schemas:
+            type: string    
+      responses:
+        "200":
+          description: If successful return all products 
+        "500":
+          description: If unsuccessful return error message      
+  /api/carts/{cartID}/products/{productID}:
+    post:
+      summary: Add products to a single cart
+      tags:
+        - Carts
+      parameters:
+        - name: cartID
+          in: path  
+          required: true
+          description: cartID to fetch
+          schemas:
+            type: string
+        - name: productID
+          in: path
+          required: true
+          description: productID to fetch
+          schemas:
+            type: string  
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestsBodies/productQuantity'            
+      responses:
+        "200":
+          description: If successful return all products 
+        "500":
+          description: If unsuccessful return error message
+    put:
+      summary: Update properti product.quantity in a single cart
+      tags:
+        - Carts
+      parameters:
+        - name: cartID
+          in: path  
+          required: true
+          description: cartID to fetch
+          schemas:
+            type: string
+        - name: productID
+          in: path
+          required: true
+          description: productID to fetch
+          schemas:
+            type: string  
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestsBodies/productQuantity'       
+      responses:
+        "200":
+          description: If successful return all products 
+        "500":
+          description: If unsuccessful return error message   
+    delete:
+      summary: Delete a single product from a single cart
+      tags:
+        - Carts
+      parameters:
+        - name: cartID
+          in: path  
+          required: true
+          description: cartID to fetch
+          schemas:
+            type: string
+        - name: productID
+          in: path
+          required: true
+          description: productID to fetch
+          schemas:
+            type: string   
+      responses:
+        "200":
+          description: If successful return all products 
+        "500":
+          description: If unsuccessful return error message         
+  /api/carts/{cartID}/pucharse/:
+    get:
+      summary: Generate pucharse order from a single cart
+      tags:
+        - Carts
+      parameters:
+        - name: cartID
+          in: path  
+          required: true
+          description: cartID ID to fetch
+          schemas:
+            type: string    
+      responses:
+        "200":
+          description: If successful return all  pucharse order
+        "500":
+          description: If unsuccessful return error message
+components:
+  schemas:
+    Carts:
+      type: object 
+      properties:
+        id:     
+          type: objectId
+          description: Mongo Id  
+        product:
+          type: array
+          items:
+            type: object
+            properties:
+              id_product:
+                type: string
+              quantiy:
+                type: number
+      example:
+          id: objectsId(123dewq314)
+          product:
+              id_product: ref123432 
+              quantiy: 3
+  requestsBodies:
+    productQuantity:
+      type: object 
+      properties:  
+        title: 
+          type: number
+          description: Product quantity
+      example:
+        quantity:: 4

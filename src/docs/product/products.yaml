@@ -1,0 +1,169 @@
+paths:
+  /api/products/:
+    get:
+      summary: Get all products from the database
+      tags:
+        - Products
+      responses:
+        "200":
+          description: If successful return all products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/products'   
+        "500":
+          description: If unsuccessful return error message
+    post:
+      summary: Create a new product in the database
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestsBodies/products'   
+      responses:
+        "200": 
+          description: If successful return Product created successfully
+        "500":
+          description: If unsuccessful return error message 
+  /api/products/{productID}:  
+    get:
+      summary: Get  a single product from the database
+      tags:
+        - Products
+      parameters:
+        - name: productID
+          in: path  
+          required: true
+          description: Product ID to fetch
+          schemas:
+            type: string
+      responses:
+        "200":
+          description: If successful return  single Product 
+        "500":
+          description: If unsuccessful return error message
+    put:
+      summary: Update a single product in the database
+      tags:
+        - Products
+      parameters:
+        - name: productID
+          in: path  
+          required: true
+          description: Product ID to fetch
+          schemas:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestsBodies/products'        
+      responses:
+        "200":
+          description: If successful return product updated  
+        "500":
+          description: If unsuccessful return error message
+    delete:
+      summary: Delete a single product from database
+      tags:
+        - Products
+      parameters:
+        - name: productID
+          in: path  
+          required: true
+          description: Product ID to fetch
+          schemas:
+            type: string  
+      responses:
+        "200":
+          description: If successful return product deleted 
+        "500":
+          description: If unsuccessful return error message
+components:
+  schemas:
+    products:
+      type: object 
+      properties:
+        id:     
+          type: objectId
+          description: Mongo Id  
+        title: 
+          type: string
+          description: Product titles
+        description:
+          type: string
+          description: Product description
+        price: 
+          type: number
+          description: Product price
+        thumbnail: 
+          type: array of pictures
+          description: Product thumbnail
+        status:
+          type: boolean
+          description: Product status
+        category:
+          type: string
+          description: Product category
+        code: 
+          type: string
+          description: Product code
+        stock: 
+          type: number
+          description: Product stock
+        owner: 
+          type: string
+          description: Who created the product    
+      example:
+          id: objectsId(123dewq314)
+          title: Product title
+          description: Product description
+          price: 10
+          thumbnail: [./images/]
+          status: true
+          category: products
+          code: products123
+          stock: 4
+          owner: mail@owner or admin
+  requestsBodies:
+    products:
+      type: object 
+      properties:  
+        title: 
+          type: string
+          description: Product titles
+        description:
+          type: string
+          description: Product description
+        price: 
+          type: number
+          description: Product price
+        thumbnail: 
+          type: array of pictures
+          description: Product thumbnail
+        category:
+          type: string
+          description: Product category
+        code: 
+          type: string
+          description: Product code
+        stock:
+          type: number
+          description: Product stock
+        owner: 
+          type: string
+          description: Who created the product
+      example:
+        title: product
+        price: 3
+        thumbnail: [./images/]
+        category: products
+        code: products123
+        stock: 5
+        owner: owner@mail
