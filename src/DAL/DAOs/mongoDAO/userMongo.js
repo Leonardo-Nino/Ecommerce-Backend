@@ -19,9 +19,9 @@ export const getUsersByEmail = async (email) => {
 }
 
 
-export const deleteUser = async (email) => {
+export const deleteUser = async (id) => {
   try {
-    const deleteUser = await userModel.deleteOne(email)
+    const deleteUser = await userModel.findOneAndDelete({ _id: id })
     return deleteUser
   } catch (error) {
     return error
@@ -55,5 +55,13 @@ export const updateLastConnection = async (id) => {
     return updatedUser;
   } catch (error) {
     return error;
+  }
+}
+export const getUserById = async (id) => {
+  try {
+    const userById = await userModel.findById({ _id: id })
+    return userById;
+  } catch (error) {
+    return error
   }
 }

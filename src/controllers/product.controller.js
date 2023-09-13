@@ -11,18 +11,8 @@ import {
 
 export const getAllProducts = async (req, res) => {
   try {
-    //aca falla si no estoy logeado y se va al catch 
-    // const currentUser = {
-    //   first_name: req.user.first_name,
-    //   last_name: req.user.last_name,
-    //   age: req.user.age,
-    //   email: req.user.email,
-    //   role: req.user.role,
-    //   last_connection: req.user.last_connections,
-    //   cart: req.user.cart,
-    // }
-    const product = await getProducts(req.query)
 
+    const product = await getProducts(req.query)
 
     res.render('home', {
       products: product.docs,

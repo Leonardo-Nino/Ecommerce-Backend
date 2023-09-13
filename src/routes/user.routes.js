@@ -1,11 +1,9 @@
 import { Router } from 'express'
-
-
-import { changeUserRole } from '../controllers/user.controller.js'
+import { changeUserRole, deleteOneUser } from '../controllers/user.controller.js'
 
 const userRouter = Router()
 
-userRouter.get('/primium/:uid', changeUserRole)
+userRouter.post('/primium/:uid', changeUserRole)
 
-
+userRouter.post('/deleteone/:uid', deleteOneUser)
 export default userRouter

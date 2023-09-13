@@ -4,6 +4,8 @@ import express from 'express'
 import './config/configDB.js'
 import { Server } from 'socket.io'
 
+
+import adminRouter from './routes/admin.routes.js'
 import productsRouters from './routes/product.routes.js'
 import cartsRouters from './routes/carts.routes.js'
 import messagesRouters from './routes/messages.routes.js'
@@ -84,7 +86,12 @@ app.use(passport.session())
 
 // Configuration handlebars
 
-app.engine('handlebars', engine())
+app.engine('handlebars', engine({
+  runtimeOptions: {
+    allowProtoPropertiesByDefault: true,
+    allowProtoMethodsByDefault: true
+  },
+}))
 app.set('view engine', 'handlebars')
 app.set('views', path.resolve(__dirname, './views'))
 
@@ -118,6 +125,7 @@ app.use('/api/register', registerRouter)
 app.use('/api/loggerTest', loggerRoutes)
 app.use('/api/resetPass', resetPasswordsRouter)
 app.use('/api/user', userRouter)
+app.use('/api/admin', adminRouter)
 app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(spec))
 
 app.use(errorHandler)
