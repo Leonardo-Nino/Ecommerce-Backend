@@ -1,5 +1,5 @@
 import { userModel } from '../DAL/mongoDB/models/user.js'
-import { getUsers, getUserById, deleteUser } from '../DAL/DAOs/mongoDAO/userMongo.js'
+import { getUsers, getUserById, deleteUser, updateActiveUser } from '../DAL/DAOs/mongoDAO/userMongo.js'
 import { transporter } from '../utils/nodemailer.js'
 
 export const changeUserRole = async (req, res) => {
@@ -34,8 +34,6 @@ export const allUser = async (req, res) => {
 
 }
 
-
-
 export const deleteOneUser = async (req, res) => {
   const { uid } = req.params
 
@@ -55,7 +53,50 @@ export const deleteOneUser = async (req, res) => {
     res.status(200).redirect('/api/admin/')
 
   } catch (error) {
-    res.status(401).send('Error changing user role')
+    res.status(401).send('Error deleting user')
   }
 
+}
+
+export const updateActiveAllUsers = async (req, res) => {
+  try {
+
+    const today = new Date
+    const twoDaysAgo = new Date(today.getTime() - (1 * 24 * 60 * 60 * 1000));
+    const thirtyMinutesAgo = new Date(today.getTime() - (30 * 60 * 1000)); // 30 minutos en milisegundos
+
+    const filter = { last_connections: { $lt: twoDaysAgo } }
+    const update = { $set: { active: false } }
+
+    updateActiveUser(filter, update);
+    res.status(200).redirect('/api/admin/')
+  } catch (error) {
+    res.status(401).send('Error updating active users')
+
+  }
+}
+
+export const deleteAllInactiveUsers = async (req, res) => {
+
+  const users = await getUsers()
+  try {
+
+    const usersToDelete = users.filter(user => user.active === false)
+
+    usersToDelete.forEach(async (user) => {
+      await deleteUser(user.id)
+      await transporter.sendMail({
+        to: user.email,
+        subject: ` Important information ${user.first_name}`,
+        text: `
+        Dear ${user.first_name} Please be informed that due to lack of use your account has been deleted
+        Ecommerce Services`,
+      })
+    })
+    res.status(200).redirect('/api/admin/')
+
+  } catch (error) {
+    res.status(401).send('Error deleting active users')
+
+  }
 }

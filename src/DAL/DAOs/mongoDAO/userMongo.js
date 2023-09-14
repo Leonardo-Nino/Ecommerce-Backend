@@ -8,7 +8,6 @@ export const getUsers = async (req, res) => {
     return error
   }
 }
-
 export const getUsersByEmail = async (email) => {
   try {
     const user = await userModel.findOne(email)
@@ -17,8 +16,6 @@ export const getUsersByEmail = async (email) => {
     return error
   }
 }
-
-
 export const deleteUser = async (id) => {
   try {
     const deleteUser = await userModel.findOneAndDelete({ _id: id })
@@ -35,7 +32,6 @@ export const getUsersByCustomFilter = async (filter) => {
     return error
   }
 }
-
 export const changeRole = async (id, obj) => {
   try {
     const newRole = await userModel.findByIdAndUpdate(id, obj)
@@ -44,7 +40,6 @@ export const changeRole = async (id, obj) => {
     return error
   }
 }
-
 export const updateLastConnection = async (id) => {
   try {
     const updatedUser = await userModel.findByIdAndUpdate(
@@ -64,4 +59,14 @@ export const getUserById = async (id) => {
   } catch (error) {
     return error
   }
+}
+export const updateActiveUser = async (filter, update) => {
+  try {
+    const updateActiveUserRequest = await userModel.updateMany(filter, update);
+    return updateActiveUserRequest
+
+  } catch (error) {
+    return error
+  }
+
 }
