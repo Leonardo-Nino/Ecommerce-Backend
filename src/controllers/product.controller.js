@@ -35,7 +35,10 @@ export const getProductById = async (req, res) => {
       title: product.title,
       price: product.price,
       stock: product.stock,
+      pid: product._id,
       thumbnail: product.thumbnail,
+      user: req.session.user
+
     })
   } catch (error) {
     return res.status(500).send('Error getting product')

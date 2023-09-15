@@ -9,9 +9,9 @@ export const newCart = async () => {
   }
 }
 
-export const getCart = async (id) => {
+export const getCart = async (id, prop) => {
   try {
-    const producsCart = await cartModel.findById(id)
+    const producsCart = await cartModel.findById(id).populate(prop).lean();
     return producsCart
   } catch (error) {
     return error

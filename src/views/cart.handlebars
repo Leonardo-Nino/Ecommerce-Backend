@@ -1,0 +1,39 @@
+<h1 class="ps-2">Cart</h1>
+
+
+<div class="card-body pb-0 pt-2">
+    <form action="/api/carts/{{user.cart}}" method="post">
+        <button class="btn btn-outline-danger btn-sm mb-3 px-5" type="submit">Clean all product</button>
+    </form>
+</div>
+<div class="d-flex flex-wrap">
+    {{#each cart.products}}
+    <div class='col-md-3 mx-2 my-3 r'>
+        <div class="card w-100 mt-5">
+            <div class="card-header text-white bg-dark">
+                {{id_product.title}}
+            </div>
+            <div class="card-body">
+                <img src={{id_product.thumbnail}}alt="Products img" class='card-img'>
+                <br />
+                Price: € {{id_product.price}}
+                <br />
+                Stock : {{id_product.stock}}
+                <br />
+                Quantity : {{quantity}}
+
+            </div>
+            <div class="card-body pb-0 pt-2 d-flex gap-1">
+                <form action="/api/products/" method="get">
+                    <button class="btn btn-outline-primary btn-sm mb-3 px-5" type="submit">Keep buying</button>
+                </form>
+                <form action="/api/carts/{{../cart._id}}/product/{{id_product._id}}" method="get">
+                    <button class="btn btn-outline-danger btn-sm mb-3 px-5" type="submit">Delete Item</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    {{/each}}
+
+</div>

@@ -25,6 +25,12 @@
                 <br />
                 Stock : {{stock}}
             </div>
+            <div class="card-body pb-0 pt-2">
+                <form action="/api/products/{{_id}}" method="get">
+                    <button class="btn btn-outline-primary btn-sm mb-3 px-5" type="submit">Product details</button>
+                </form>
+            </div>
+
         </div>
     </div>
     {{/each}}

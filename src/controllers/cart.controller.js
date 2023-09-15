@@ -29,8 +29,8 @@ export const getProducFromCart = async (req, res) => {
   const cid = req.params.cid
 
   try {
-    const products = await getCart({ _id: cid })
-    res.status(200).send(products)
+    const products = await getCart(cid, "products.id_product")
+    res.status(200).render('cart', { cart: products, user: req.session.user })
   } catch (error) {
     res.status(500).send('Error getting products from cart')
   }
@@ -46,7 +46,7 @@ export const deleteAllProducsFromCart = async (req, res) => {
 
     await updateCart({ _id: cid }, cart)
 
-    res.status(200).send(cart)
+    res.status(200).redirect('/api/products')
   } catch (error) {
     res.status(500).send('Error deleteting products from cart')
   }
@@ -58,12 +58,14 @@ export const addProductToCart = async (req, res, next) => {
   const pid = req.params.pid
   const { quantity } = req.body
   const cart = await getCart({ _id: cid })
+  const products = cart.products
+  const productIndex = products.findIndex(
+    (prod) => prod.id_product == pid
+  )
   const product = await getProductsById({ _id: pid })
   try {
-    // if (req.user.role === 'premium' && product.owner === req.user.email) {
-    //   throw new Error('Product owner')
-    //}
-    if (product._id === undefined || quantity <= 0) {
+
+    if (product._id === undefined || quantity <= 0 || quantity === undefined) {
       CustomError.createError({
         name: 'Product creation error',
         cause: generateErrorAddProductToCart({
@@ -74,16 +76,30 @@ export const addProductToCart = async (req, res, next) => {
       })
     }
 
-    const Addproducts = {
-      id_product: pid,
-      quantity: quantity,
+    if (productIndex === -1) {  //If product does not exist in the cart, create
+      const Addproducts = {
+        id_product: pid,
+        quantity: quantity,
+      }
+
+      cart.products.push(Addproducts)
+
+      await updateCart({ _id: cid }, cart)
+
+
+    } else {
+      //If product already exists in the cart update the quantity
+
+
+      const newQuanty = products[productIndex].quantity + parseInt(quantity)
+
+      products[productIndex].quantity = newQuanty
+
+      await updateCart({ _id: cid }, { products: products })
+
     }
 
-    cart.products.push(Addproducts)
-
-    await updateCart({ _id: cid }, cart)
-
-    res.status(200).send('Product added to cart')
+    res.status(200).redirect(`/api/carts/${cid}`)
   } catch (error) {
     next(error)
   }
@@ -102,7 +118,8 @@ export const updateQuantity = async (req, res) => {
       (prod) => prod.id_product == pid
     )
 
-    updateProduct[productIndex].quantity = quantity
+    const newQuanty = updateProduct[productIndex].quantity + parseInt(quantity)
+    updateProduct[productIndex].quantity = newQuanty
 
     await updateCart({ _id: cid }, { products: updateProduct })
 
@@ -133,7 +150,7 @@ export const deleteProductFromCart = async (req, res) => {
 
     await updateCart({ _id: cid }, { products: productUpdate })
 
-    res.status(200).send('Product removed successfully')
+    res.status(200).redirect(`/api/carts/${cid}`)
   } catch (error) {
     res.status(500).send('Error removing product' + error)
   }

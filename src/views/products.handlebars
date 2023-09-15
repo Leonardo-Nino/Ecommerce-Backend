@@ -1,18 +1,26 @@
+<h1>Product details</h1>
 
-<h1>Select product</h1>
-
-<div class='col-md-3 mx-2 my-3' >                                 
-        <div class="card w-100 mt-5" >
-                <div class="card-header bg-dark text-white">
-                    {{title}}
-                </div> 
-                <div class="card-body">
-                <img src= {{thumbnail}} class="card-img" alt="Product img">
-                        
-                    <br />
-                    Price:  €  {{price}}  
-                    <br />
-                    Stock : {{stock}} 
-                </div>                                                                                   
+<div class='col-md-3 mx-2 my-3'>
+    <div class="card w-100 mt-5">
+        <div class="card-header bg-dark text-white">
+            {{title}}
         </div>
+        <div class="card-body">
+            <img src={{thumbnail}} class="card-img" alt="Product img">
+            <br />
+            Price: € {{price}}
+            <br />
+            Stock : {{stock}}
+
+            <div class="card-body d-flex gap-2">
+                <form action="/api/products/" method="get">
+                    <button class="btn btn-outline-dark btn-sm mb-3 px-5" type="submit">Back products</button>
+                </form>
+                <form action="/api/carts/{{user.cart}}/product/{{pid}}" method="post">
+                    Quantity : <input type="number" name="quantity" required><br>
+                    <button class="btn btn-outline-dark btn-sm mb-3 px-5" type="submit">Add to cart</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

@@ -9,6 +9,5 @@ userRouter.post('/deleteone/:uid', deleteOneUser)
 
 userRouter.post('/updateAllActiveUsers', updateActiveAllUsers)
 
-
 userRouter.post('/deleteInactiveUsers', deleteAllInactiveUsers)
 export default userRouter
