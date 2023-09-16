@@ -12,7 +12,7 @@ export const login = async (req, res) => {
     const user = new currentUser(req.user)
     req.session.user = user
     const token = generateToken(user)
-    res.cookie('myCookie', token, { maxAge: 3600000, httpOnly: true }).redirect('/api/products')
+    res.cookie('myCookie', token, { maxAge: 36000000, httpOnly: true }).redirect('/api/products')
   } catch (error) {
     console.error(error)
     res.status(401).send('Error attempting login')

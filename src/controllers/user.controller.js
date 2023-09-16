@@ -7,11 +7,18 @@ export const changeUserRole = async (req, res) => {
   try {
     const user = await userModel.findById(uid)
 
-    user.role = user.role === 'user' ? 'premium' : 'user'
 
-    await user.save()
+    if (user.role != 'admin') {
 
-    res.status(200).redirect('/api/admin/')
+      user.role = user.role === 'user' ? 'premium' : 'user'
+
+      await user.save()
+
+      res.status(200).redirect('/api/admin/')
+    } else {
+      res.status(401).send({ message: "You can't change the admin role!!! GET OUT!" })
+    }
+
 
   } catch (error) {
     res.status(401).send('Error changing user role')
@@ -41,16 +48,20 @@ export const deleteOneUser = async (req, res) => {
 
   try {
 
-    await transporter.sendMail({
-      to: user.email,
-      subject: ` Important information ${user.first_name}`,
-      text: `
-      Dear ${user.first_name} Please be informed that due to lack of use your account has been deleted
-      Ecommerce Services`,
-    })
+    if (user.role != 'admin') {
+      await transporter.sendMail({
+        to: user.email,
+        subject: ` Important information ${user.first_name}`,
+        text: `
+        Dear ${user.first_name} Please be informed that due to lack of use your account has been deleted
+        Ecommerce Services`,
+      })
+      await deleteUser(uid)
+      res.status(200).redirect('/api/admin/')
+    } else {
+      res.status(401).send({ Message: "C'mon! You are not allowed to delete the administrator" })
+    }
 
-    await deleteUser(uid)
-    res.status(200).redirect('/api/admin/')
 
   } catch (error) {
     res.status(401).send('Error deleting user')
@@ -81,13 +92,13 @@ export const deleteAllInactiveUsers = async (req, res) => {
   const users = await getUsers()
   try {
 
-    const usersToDelete = users.filter(user => user.active === false)
+    const usersToDelete = users.filter(user => user.active === false && user.role !== 'admin')
 
     usersToDelete.forEach(async (user) => {
       await deleteUser(user.id)
       await transporter.sendMail({
         to: user.email,
-        subject: ` Important information ${user.first_name}`,
+        subject: `Important information ${user.first_name}`,
         text: `
         Dear ${user.first_name} Please be informed that due to lack of use your account has been deleted
         Ecommerce Services`,

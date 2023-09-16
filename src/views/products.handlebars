@@ -12,13 +12,16 @@
             <br />
             Stock : {{stock}}
 
-            <div class="card-body d-flex gap-2">
+            <div class="card-body gap-2">
+                <form action="/api/carts/{{user.cart}}/product/{{pid}}" method="post">
+                    <div class="input-group mb-3">
+                        <button class="btn btn-outline-dark btn-sm " type="submit">Add to cart</button>
+                        <input type="number" name="quantity" class="form-control" aria-describedby="button-addon1"
+                            required>
+                    </div>
+                </form>
                 <form action="/api/products/" method="get">
                     <button class="btn btn-outline-dark btn-sm mb-3 px-5" type="submit">Back products</button>
-                </form>
-                <form action="/api/carts/{{user.cart}}/product/{{pid}}" method="post">
-                    Quantity : <input type="number" name="quantity" required><br>
-                    <button class="btn btn-outline-dark btn-sm mb-3 px-5" type="submit">Add to cart</button>
                 </form>
             </div>
         </div>

@@ -2,7 +2,7 @@
 
 
 <div class="card-body pb-0 pt-2">
-    <form action="/api/carts/{{user.cart}}" method="post">
+    <form action="/api/carts/{{user.cart}}?_method=DELETE" method="POST">
         <button class="btn btn-outline-danger btn-sm mb-3 px-5" type="submit">Clean all product</button>
     </form>
 </div>
@@ -14,26 +14,36 @@
                 {{id_product.title}}
             </div>
             <div class="card-body">
-                <img src={{id_product.thumbnail}}alt="Products img" class='card-img'>
+                <img class="bg-image hover-zoom" src={{id_product.thumbnail}}alt="Products img">
                 <br />
                 Price: € {{id_product.price}}
                 <br />
                 Stock : {{id_product.stock}}
                 <br />
                 Quantity : {{quantity}}
-
-            </div>
-            <div class="card-body pb-0 pt-2 d-flex gap-1">
-                <form action="/api/products/" method="get">
-                    <button class="btn btn-outline-primary btn-sm mb-3 px-5" type="submit">Keep buying</button>
+                <br />
+                <br />
+                <form class="d-flex " action="/api/carts/{{../cart._id}}/product/{{id_product._id}}?_method=PUT"
+                    method="POST">
+                    <div class="input-group mb-3">
+                        <button class="btn btn-outline-dark btn-sm " type="submit" id="button-addon1">New
+                            quantity</button>
+                        <input type="number" name="quantity" class="form-control" aria-describedby="button-addon1"
+                            required>
                 </form>
-                <form action="/api/carts/{{../cart._id}}/product/{{id_product._id}}" method="get">
-                    <button class="btn btn-outline-danger btn-sm mb-3 px-5" type="submit">Delete Item</button>
-                </form>
             </div>
-
         </div>
+        <div class="card-body pb-0 pt-2 d-flex gap-1">
+            <form action="/api/products/" method="get">
+                <button class="btn btn-outline-primary btn-sm mb-3 px-5" type="submit">Keep buying</button>
+            </form>
+            <form action="/api/carts/{{../cart._id}}/product/{{id_product._id}}?_method=DELETE" method="POST">
+                <button class="btn btn-outline-danger btn-sm mb-3 px-5" type="submit">Delete Item</button>
+            </form>
+        </div>
+
     </div>
-    {{/each}}
+</div>
+{{/each}}
 
 </div>

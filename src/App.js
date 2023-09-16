@@ -3,7 +3,7 @@ import 'dotenv/config'
 import express from 'express'
 import './config/configDB.js'
 import { Server } from 'socket.io'
-
+import methodOverride from 'method-override';
 
 import adminRouter from './routes/admin.routes.js'
 import productsRouters from './routes/product.routes.js'
@@ -36,6 +36,12 @@ import { loggerMiddleware } from './middleware/logger.js'
 
 const app = express()
 const port = 4000
+
+
+
+// use put delete in Routes
+
+app.use(methodOverride('_method'))
 
 //Swagger configuration
 
@@ -71,7 +77,7 @@ app.use(
 
       mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
 
-      ttl: 300,
+      ttl: 3600,
     }),
     secret: process.env.SESSION_SECRET,
     resave: false,

@@ -5,9 +5,9 @@ const userRouter = Router()
 
 userRouter.post('/primium/:uid', changeUserRole)
 
-userRouter.post('/deleteone/:uid', deleteOneUser)
+userRouter.delete('/deleteone/:uid', deleteOneUser)
 
 userRouter.post('/updateAllActiveUsers', updateActiveAllUsers)
 
-userRouter.post('/deleteInactiveUsers', deleteAllInactiveUsers)
+userRouter.delete('/deleteInactiveUsers', deleteAllInactiveUsers)
 export default userRouter

@@ -16,7 +16,7 @@ cartsRouters.post('/', createCart)
 
 cartsRouters.get('/:cid', getProducFromCart)
 
-cartsRouters.post('/:cid', deleteAllProducsFromCart)
+cartsRouters.delete('/:cid', deleteAllProducsFromCart)
 
 cartsRouters.post('/:cid/product/:pid', addProductToCart)
 
@@ -24,7 +24,7 @@ cartsRouters.post('/:cid/product/:pid', addProductToCart)
 
 cartsRouters.put('/:cid/product/:pid', updateQuantity)
 
-cartsRouters.get('/:cid/product/:pid', deleteProductFromCart)
+cartsRouters.delete('/:cid/product/:pid', deleteProductFromCart)
 
 cartsRouters.get('/:cid/purcharse', generatePucharse)
 

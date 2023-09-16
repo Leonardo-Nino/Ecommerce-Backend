@@ -118,12 +118,10 @@ export const updateQuantity = async (req, res) => {
       (prod) => prod.id_product == pid
     )
 
-    const newQuanty = updateProduct[productIndex].quantity + parseInt(quantity)
-    updateProduct[productIndex].quantity = newQuanty
-
+    updateProduct[productIndex].quantity = quantity
     await updateCart({ _id: cid }, { products: updateProduct })
 
-    res.status(200).send('Updated product quantities successfully')
+    res.status(200).redirect(`/api/carts/${cid}`)
   } catch (error) {
     res.status(500).send('Error updating product quantities' + error)
   }
