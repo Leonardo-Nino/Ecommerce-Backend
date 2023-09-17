@@ -1,4 +1,6 @@
 import { v4 as uniqueCodeId } from 'uuid'
+import { transporter } from '../utils/nodemailer.js'
+
 
 import CustomError from '../errors/customError.js'
 import EError from '../errors/enums.js'
@@ -28,9 +30,18 @@ export const createCart = async (res, req) => {
 export const getProducFromCart = async (req, res) => {
   const cid = req.params.cid
 
+  let totalAmount = 0
+
   try {
     const products = await getCart(cid, "products.id_product")
-    res.status(200).render('cart', { cart: products, user: req.session.user })
+    for (const product of products.products) {
+      const quantity = product.quantity
+      const productId = product.id_product
+      const productData = await getProductsById(productId)
+      const Subtotal = productData.price * quantity
+      totalAmount += Subtotal
+    }
+    res.status(200).render('cart', { cart: products, user: req.session.user, total: totalAmount })
   } catch (error) {
     res.status(500).send('Error getting products from cart')
   }
@@ -173,6 +184,7 @@ export const generatePucharse = async (req, res) => {
         const productId = product.id_product
         const productData = await getProductsById(productId)
 
+
         if (productData.stock === 0) {
           productWithoutStock.push(productData)
           continue
@@ -198,8 +210,18 @@ export const generatePucharse = async (req, res) => {
         amount: totalAmount,
         purchaser: user.email,
       })
-
-      res.status(200).send(productWithoutStock)
+      if (user.role != 'admin') {
+        await transporter.sendMail({
+          to: user.email,
+          subject: `Purcharse receipt`,
+          text: `
+          Thanks for ordering, ${user.first_name}
+          Here's your receipt number: ${generateNewOrder.code}
+          Amount: €${generateNewOrder.amount},
+          Ecommerce Services`,
+        })
+      }
+      res.status(200).render('purcharse', { orders: generateNewOrder })
     } else {
       console.log('User no auth')
     }

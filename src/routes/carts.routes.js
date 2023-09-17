@@ -26,6 +26,6 @@ cartsRouters.put('/:cid/product/:pid', updateQuantity)
 
 cartsRouters.delete('/:cid/product/:pid', deleteProductFromCart)
 
-cartsRouters.get('/:cid/purcharse', generatePucharse)
+cartsRouters.post('/:cid/purcharse', generatePucharse)
 
 export default cartsRouters

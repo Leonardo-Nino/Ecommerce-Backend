@@ -1,0 +1,12 @@
+<h1>Order</h1>
+
+<p>Order identidication: {{orders.code}}</p>
+<p>Date: {{orders.pucharse_datetime}}</p>
+<p>Total amount: €{{orders.amount}}</p>
+<p>Purcharser: {{orders.purchaser}}</p>
+
+<div class="card-body pb-0 pt-2 d-flex gap-1">
+    <form action="/api/products/" method="get">
+        <button class="btn btn-outline-primary btn-sm mb-3 px-5" type="submit">HOME</button>
+    </form>
+</div>
