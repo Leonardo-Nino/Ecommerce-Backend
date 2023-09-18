@@ -5,6 +5,8 @@ import './config/configDB.js'
 import { Server } from 'socket.io'
 import methodOverride from 'method-override';
 
+
+import errorsRouter from './routes/errors.routes.js';
 import adminRouter from './routes/admin.routes.js'
 import productsRouters from './routes/product.routes.js'
 import cartsRouters from './routes/carts.routes.js'
@@ -132,6 +134,7 @@ app.use('/api/loggerTest', loggerRoutes)
 app.use('/api/resetPass', resetPasswordsRouter)
 app.use('/api/user', userRouter)
 app.use('/api/admin', adminRouter)
+app.use('/api/errors', errorsRouter)
 app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(spec))
 
 app.use(errorHandler)
