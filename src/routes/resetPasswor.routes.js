@@ -1,10 +1,17 @@
 import { Router } from 'express'
-import { generatelink, newPass } from '../controllers/resetPass.controller.js'
+import { generatelink, newPass, checkLink } from '../controllers/resetPass.controller.js'
 
 const resetPasswordsRouter = Router()
 
-resetPasswordsRouter.get('/sendLink', generatelink)
 
-resetPasswordsRouter.get('/newPassword/:token', newPass)
+resetPasswordsRouter.get('/sendLink', async (req, res) => {
+    res.render('sendNewPassLink')
+})
+
+resetPasswordsRouter.post('/sendLink', generatelink)
+
+resetPasswordsRouter.get('/newPassword/:token', checkLink)
+
+resetPasswordsRouter.post('/newPassword', newPass)
 
 export default resetPasswordsRouter

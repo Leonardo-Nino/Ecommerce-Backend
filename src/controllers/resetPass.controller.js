@@ -13,24 +13,37 @@ export const generatelink = async (req, res) => {
 
   try {
     if (!user) {
-      res.json({ menssage: `User with email : ${email}  not found` })
+      res.json({ menssage: `User with email : ${email} not found` })
     } else {
       await transporter.sendMail({
         to: email,
         subject: `Change password request`,
-        text: `Hello, ${user.first_name} please follow the  link to change your password:
-        ${sendLink}`,
+        html: ` Hello, ${user.first_name} please follow this <a href="${sendLink}">LINK</a> to change your password`
       })
-      res.status(200).send('Mail sent successfully')
+      res.status(200).redirect('/api/session/login')
     }
   } catch (error) {
     res.status(500).send('Error retriveing user')
   }
 }
 
-export const newPass = async (req, res) => {
-  const { pass } = req.body
+
+export const checkLink = async (req, res) => {
   const { token } = req.params
+  try {
+    const isValidToken = jwt.verify(token, process.env.JWT_SECRET)
+    if (isValidToken) {
+      res.status(200).render('resetPass', { token })
+    } else
+      res.status(400).render('api/errors/errorLog')
+  } catch (error) {
+    res.send(error)
+  }
+
+}
+export const newPass = async (req, res) => {
+  const { pass, token } = req.body
+
 
   try {
     const isValidToken = jwt.verify(token, process.env.JWT_SECRET)
