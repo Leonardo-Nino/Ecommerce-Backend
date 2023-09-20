@@ -55,9 +55,8 @@ export const newPass = async (req, res) => {
         password: pass,
       }
       const user = await changePassword(userEmail, newPass)
-      console.log(user)
 
-      res.status(200).json({ Message: 'New password changed' })
+      res.status(200).send("Your password has been changed please log in")
     } else console.log('algo anda mal')
   } catch (error) {
     res.send(error)

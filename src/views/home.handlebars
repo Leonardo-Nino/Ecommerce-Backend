@@ -1,25 +1,13 @@
-<div class="ps-2">
-    <h2>Bienvenido : {{user.first_name}} </h2>
-    <p>Email : {{user.email}} </p>
-    <p>Rol: {{user.role}} </p>
-    <p>Cart : {{user.cart}} </p>
-    <p>Last connection: {{user.last_connections}} </p>
-</div>
-<form action="/api/session/logout" method="get">
-    <input class="btn btn-light ps-3 " type="submit" value="Logout">
-</form>
-
-
 <h1 class="ps-2">All products</h1>
-<div class="d-flex flex-wrap">
+<div class="d-flex flex-wrap  justify-content-center">
     {{#each products}}
-    <div class='col-md-3 mx-2 my-3 r'>
+    <div class='col-sm-3 mx-2 my-3 r'>
         <div class="card w-100 mt-5">
             <div class="card-header text-white bg-dark">
                 {{title}}
             </div>
             <div class="card-body">
-                <img src={{thumbnail}}alt="Products img" class='card-img'>
+                <img src={{thumbnail}}alt="Products img">
                 <br />
                 Price: € {{price}}
                 <br />

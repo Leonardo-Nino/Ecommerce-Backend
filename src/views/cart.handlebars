@@ -6,7 +6,7 @@
         <button class="btn btn-outline-danger btn-sm mb-3 px-5" type="submit">Clean all product</button>
     </form>
 </div>
-<div class="d-flex flex-wrap">
+<div class="d-flex flex-wrap justify-content-center">
     {{#each cart.products}}
     <div class='col-sm-3     mx-2 my-3 r'>
         <div class="card w-100 mt-5">
@@ -14,7 +14,7 @@
                 {{id_product.title}}
             </div>
             <div class="card-body">
-                <img class="bg-image hover-zoom" src={{id_product.thumbnail}}alt="Products img">
+                <img src={{id_product.thumbnail}}alt="Products img">
                 <br />
                 Price: € {{id_product.price}}
                 <br />
@@ -48,6 +48,6 @@
 <div class="card-body pb-0 pt-2 d-flex gap-3 mb-4">
     <h2>Total: €{{total}}</h2>
     <form action="/api/carts/{{user.cart}}/purcharse" method="POST">
-        <button class="btn btn-outline-dark btn-sm mb-3 px-5" type="submit">Genererate order</button>
+        <button class="btn btn-outline-dark btn-sm mb-3 px-5" type="submit">Generate order</button>
     </form>
 </div>

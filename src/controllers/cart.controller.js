@@ -213,7 +213,7 @@ export const generatePucharse = async (req, res) => {
       if (user.role != 'admin') {
         await transporter.sendMail({
           to: user.email,
-          subject: `Purcharse receipt`,
+          subject: `Purchase receipt`,
           text: `
           Thanks for ordering, ${user.first_name}
           Here's your receipt number: ${generateNewOrder.code}
@@ -221,7 +221,7 @@ export const generatePucharse = async (req, res) => {
           Ecommerce Services`,
         })
       }
-      res.status(200).render('purcharse', { orders: generateNewOrder })
+      res.status(200).render('purchase', { orders: generateNewOrder })
     } else {
       console.log('User no auth')
     }

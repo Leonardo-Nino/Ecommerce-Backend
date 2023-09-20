@@ -1,5 +1,6 @@
 import CustomError from '../errors/customError.js'
 import EError from '../errors/enums.js'
+import { transporter } from '../utils/nodemailer.js'
 import { generateErrorAddProduct } from '../errors/info.js'
 import {
   getProducts,
@@ -109,12 +110,22 @@ export const putProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   const { id } = req.params
   const product = await getProductsById(id)
-  // console.log(product)
-  // console.log(req.user)
+
 
   try {
     if (req.user.email !== product.owner || product.owner !== 'admin') {
       throw new Error('Unauthorized to delete product')
+    }
+
+    if (req.user.password === product.owner && req.user.role === 'premium') {
+
+      await transporter.sendMail({
+        to: req.user.email,
+        subject: `Welcome  ${req.user.first_name}`,
+        text: `We inform you than the product ${product._id} has been deleted by the administrator`,
+      })
+
+
     }
 
     await productDelete(id)
