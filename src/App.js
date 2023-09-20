@@ -126,7 +126,7 @@ app.use((req, res, next) => {
 
 app.use('/', express.static(__dirname + '/public'))
 app.get("/", async (req, res) => {
-  res.render("home");
+  res.redirect('/api/products');
 });
 app.use('/api/products', productsRouters)
 app.use('/api/carts', cartsRouters)
