@@ -125,6 +125,9 @@ app.use((req, res, next) => {
 //Configuration routes
 
 app.use('/', express.static(__dirname + '/public'))
+app.get("/", async (req, res) => {
+  res.render("home");
+});
 app.use('/api/products', productsRouters)
 app.use('/api/carts', cartsRouters)
 app.use('/api/messages', messagesRouters)
