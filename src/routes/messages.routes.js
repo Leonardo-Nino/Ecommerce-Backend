@@ -4,7 +4,9 @@ import { messagesModel } from '../DAL/mongoDB/models/messages.js'
 
 const messagesRouters = Router()
 
-messagesRouters.get('/', auth(['user']), async (req, res) => {
+messagesRouters.get('/', async (req, res) => {
+  //auth(['user,premiun, admin'])
+
   try {
     req.io.on('connection', async (socket) => {
       console.log('client connected')
