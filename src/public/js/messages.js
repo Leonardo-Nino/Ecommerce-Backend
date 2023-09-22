@@ -5,6 +5,7 @@ let chatBox = document.getElementById('chatBox')
 let chatStart = document.getElementById('startChat')
 let messagesP = document.getElementById('messagesP')
 
+
 function renderMessages() {
   socket.on('messages', (dataMessage) => {
     messagesP.innerHTML = ''
