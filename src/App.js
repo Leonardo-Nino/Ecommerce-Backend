@@ -4,6 +4,7 @@ import express from 'express'
 import './config/configDB.js'
 import { Server } from 'socket.io'
 import methodOverride from 'method-override';
+import { auth } from './middleware/auth.js'
 
 import unauthorizedRouter from './routes/unauthorized.routes.js';
 import errorsRouter from './routes/errors.routes.js';
@@ -129,7 +130,7 @@ app.get("/", async (req, res) => {
   res.redirect('/api/products');
 });
 app.use('/api/products', productsRouters)
-app.use('/api/carts', cartsRouters)
+app.use('/api/carts', auth(['admin', 'premium', 'user']), cartsRouters)
 app.use('/api/messages', messagesRouters)
 app.use('/api/session', sessionRouters)
 app.use('/api/register', registerRouter)

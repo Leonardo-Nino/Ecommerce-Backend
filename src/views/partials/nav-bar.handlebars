@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark  custom-nav">
     <div class="container">
         <a class="navbar-brand logo" href="/api/products">SWITCH GAMES</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -21,16 +21,13 @@
                     <a class="nav-link" data-bs-toggle="collapse" href="#collapseExample" role="button"
                         aria-expanded="false" aria-controls="collapseExample" href="/api/user/profile">Profile</a>
                 </li>
-
                 <div class="collapse " id="collapseExample">
                     <ul class="">
                         <li class="nav-link">{{user.first_name}}</li>
                         <li class="nav-link">Last connection: {{user.last_connections}}</li>
-                        <li class="nav-item"> <a class="nav-link" href="/api/session/logout">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/api/session/logout">Logout</a></li>
                     </ul>
                 </div>
-
-
             </ul>
             <a class="nav-link  link-light" href="/api/carts/{{user.cart}}">
                 <i class="bi bi-cart" style="font-size: 2rem"></i>
@@ -39,15 +36,20 @@
     </div>
 </nav>
 
-{{!-- perfil --}}
-{{!--
-<div class="ps-2">
-    <h2>Bienvenido : {{user.first_name}} </h2>
-    <p>Email : {{user.email}} </p>
-    <p>Rol: {{user.role}} </p>
-    <p>Cart : {{user.cart}} </p>
-    <p>Last connection: {{user.last_connections}} </p>
-</div>
-<form action="/api/session/logout" method="get">
-    <input class="btn btn-light ps-3 " type="submit" value="Logout">
-</form> --}}
+
+<style>
+    /* Estilos personalizados para el footer */
+    .custom-nav {
+        background-color: #0f1215;
+        color: #fff;
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .custom-nav .navbar-brand {
+        font-size: 2rem;
+        margin: 0 10px;
+    }
+</style>

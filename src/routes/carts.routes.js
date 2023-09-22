@@ -14,11 +14,11 @@ const cartsRouters = Router()
 
 cartsRouters.post('/', createCart)
 
-cartsRouters.get('/:cid', getProducFromCart)
+cartsRouters.get('/:cid', auth(['admin', 'premium', 'user']), getProducFromCart)
 
 cartsRouters.delete('/:cid', deleteAllProducsFromCart)
 
-cartsRouters.post('/:cid/product/:pid', addProductToCart)
+cartsRouters.post('/:cid/product/:pid', auth(['admin', 'premium', 'user']), addProductToCart)
 
 //auth(['user'])
 
