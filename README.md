@@ -15,11 +15,11 @@
 - Run `npm install` on the cloned directory.
 - Edit the private/env to suit your needs.
 
-# Running the software
+## Running the software
 
 - `npm run start` for simple setups.
 
-# Documentation Enpoint
+## Documentation Enpoint
 
 ```
 /apidocs
